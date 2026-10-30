@@ -44,8 +44,10 @@ if (-not (Test-Path $config)) {
 
 # 3. The scheduled task: at sign-in, and when Windows resumes from sleep or hibernation
 #    (System log, Power-Troubleshooter event 1). pythonw runs it without a console window.
+#    The account comes from the process token: over SSH, USERDOMAIN reads WORKGROUP and does not resolve.
+$account = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 $action = New-ScheduledTaskAction -Execute $pyw -Argument "`"$script`" on" -WorkingDirectory $repo
-$atLogon = New-ScheduledTaskTrigger -AtLogOn -User "$env:USERDOMAIN\$env:USERNAME"
+$atLogon = New-ScheduledTaskTrigger -AtLogOn -User $account
 $eventClass = Get-CimClass -Namespace Root/Microsoft/Windows/TaskScheduler -ClassName MSFT_TaskEventTrigger
 $onResume = New-CimInstance -CimClass $eventClass -ClientOnly -Property @{
     Enabled      = $true
@@ -53,7 +55,7 @@ $onResume = New-CimInstance -CimClass $eventClass -ClientOnly -Property @{
 }
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable `
     -ExecutionTimeLimit (New-TimeSpan -Minutes 5) -MultipleInstances IgnoreNew
-$principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType Interactive -RunLevel Limited
+$principal = New-ScheduledTaskPrincipal -UserId $account -LogonType Interactive -RunLevel Limited
 Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger @($atLogon, $onResume) -Settings $settings `
     -Principal $principal -Description 'Wake the TV and switch it to this PC (TurnOnTv)' -Force | Out-Null
 

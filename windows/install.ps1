@@ -19,13 +19,33 @@ $pyw = Join-Path $venv 'Scripts\pythonw.exe'
 $config = Join-Path $env:APPDATA 'TurnOnTv\config.json'
 
 # 1. A private Python environment next to the script.
-if (-not (Test-Path $py)) {
-    $base = Get-Command py -ErrorAction SilentlyContinue
-    if ($base) { & py -3 -m venv $venv } else {
-        $base = Get-Command python -ErrorAction SilentlyContinue
-        if (-not $base) { throw 'Python 3.9 or newer is required: install it from https://www.python.org/downloads/ and run this again.' }
-        & python -m venv $venv
+#    A python.exe under WindowsApps is the Microsoft Store alias, which only prints "Python was not found", and a
+#    shell opened before Python was installed (or an SSH session) may not have it on PATH: look in the usual places.
+function Find-Python {
+    $candidates = @()
+    $launcher = Get-Command py -ErrorAction SilentlyContinue
+    if ($launcher) {
+        $found = & py -3 -c 'import sys; print(sys.executable)' 2>$null
+        if ($LASTEXITCODE -eq 0 -and $found) { $candidates += "$found".Trim() }
     }
+    $candidates += Get-Command python -All -ErrorAction SilentlyContinue | ForEach-Object Source |
+        Where-Object { $_ -notlike '*\WindowsApps\*' }
+    foreach ($root in "$env:LOCALAPPDATA\Programs\Python", "$env:ProgramFiles") {
+        $candidates += Get-ChildItem $root -Directory -Filter 'Python3*' -ErrorAction SilentlyContinue |
+            Sort-Object Name -Descending | ForEach-Object { Join-Path $_.FullName 'python.exe' }
+    }
+    foreach ($c in $candidates) {
+        if (-not (Test-Path $c)) { continue }
+        & $c -c 'import sys; sys.exit(0 if sys.version_info >= (3, 9) else 1)' 2>$null
+        if ($LASTEXITCODE -eq 0) { return $c }
+    }
+    return $null
+}
+if (-not (Test-Path $py)) {
+    $base = Find-Python
+    if (-not $base) { throw 'Python 3.9 or newer is required: install it from https://www.python.org/downloads/ (or: winget install Python.Python.3.13 --scope user) and run this again.' }
+    Write-Host "Using $base"
+    & $base -m venv $venv
     if ($LASTEXITCODE -ne 0) { throw 'Could not create the Python environment.' }
 }
 & $py -m pip install --disable-pip-version-check -q -r (Join-Path $repo 'requirements.txt')

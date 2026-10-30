@@ -8,6 +8,30 @@ does it over your home network instead, with the **Android TV Remote protocol** 
 TV phone app uses). There is no ADB and you don't need developer options. You pair the PC once, and the
 connection is encrypted.
 
+## Start here
+
+| You are | Do this |
+|---|---|
+| **Not technical, or don't want to fiddle** | [Let an AI agent set it up](#let-an-ai-agent-set-it-up): it asks you a few questions and does the rest. |
+| **Comfortable with a terminal** | [Install it yourself](#install). |
+| **Looking for your TV** | [TVS.md](TVS.md): what tested TVs need. |
+
+## Let an AI agent set it up
+
+[PROMPT.md](PROMPT.md) is a set of instructions for an AI coding agent (Claude Code, Codex, Gemini CLI or
+similar). The agent checks your TV and finds out how to switch it to the right input. Then it installs
+everything, tests it with you, and tells you what it couldn't test. It works on Windows and Linux, and
+it can set up a **different** computer than the one it runs on (for example a gaming PC with no AI tools)
+over SSH, and walk you through enabling SSH there.
+
+1. Install an AI coding agent on the computer you use, and open a terminal.
+2. Get this repository: `git clone https://github.com/CarlosSV923/TurnOnTv`, or download the
+   [ZIP](https://github.com/CarlosSV923/TurnOnTv/archive/refs/heads/main.zip) and extract it.
+3. Start the agent in that folder and paste the contents of [PROMPT.md](PROMPT.md), with your TV model and
+   which PC is plugged into it.
+4. Answer its questions. When the TV shows a pairing code, or a password is needed, **you** type it into
+   the terminal the agent opens. The agent never needs to see it.
+
 ## How it works
 
 1. When the PC starts (Windows: when you sign in) or wakes from sleep, a scheduled task (Windows) or a
@@ -90,7 +114,7 @@ detailed logs.
 | Key | Meaning |
 |---|---|
 | `host` | The TV's IP address. Give the TV a fixed address (a DHCP reservation in your router) so it doesn't change. |
-| `mac` | The MAC address used for Wake-on-LAN, read during pairing. The TV reports its Wi-Fi MAC; if it is on Ethernet, use a list with both, e.g. `["aa:bb:cc:00:11:22", "dd:ee:ff:33:44:55"]` (the wired one is in the router's client list). |
+| `mac` | The MAC address used for Wake-on-LAN, read during pairing. The TV reports its Wi-Fi MAC; if it is on Ethernet, use a list with both, e.g. `["aa:bb:cc:00:11:22", "dd:ee:ff:33:44:55"]`. Find the wired one with `arp -a <tv ip>` (Windows) or `ip neigh show <tv ip>` (Linux) after reaching the TV. |
 | `input` | `HDMI_1` to `HDMI_4`. |
 | `input_uri` | Optional. For TVs that ignore the input keys: a passthrough URI such as `content://android.media.tv/passthrough/<input id>`. It is sent as an app link instead of the key. |
 | `wol` | `false` turns Wake-on-LAN off. |
@@ -101,13 +125,10 @@ Some firmware ignores `KEYCODE_TV_INPUT_HDMI_*`. For those, TurnOnTv can open th
 channel instead: `content://android.media.tv/passthrough/<input id>`, where the `/` characters in the input
 id are written as `%2F`.
 
-| TV | Input | URI |
-|---|---|---|
-| TCL Google TV, G08 platform (Android 14) | HDMI 1 | `content://android.media.tv/passthrough/com.tcl.tvinput%2F.TvPassThroughService%2FHW15` |
-
-To find the id on another TV, run `adb shell dumpsys tv_input | grep -i hdmi` once with USB debugging on,
-or look for your model in the [cleanyourtv examples](https://github.com/Gathin23/cleanyourtv/tree/main/examples).
-Test a URI with `turnontv.py input "<uri>"` before you put it in the config.
+[TVS.md](TVS.md) lists the URIs that worked on tested TVs, and input ids from the
+[cleanyourtv](https://github.com/Gathin23/cleanyourtv) project for other models. For any other TV, run
+`adb shell dumpsys tv_input | grep -i hdmi` once with USB debugging on. Test a URI with
+`turnontv.py input "<uri>"` before you put it in the config.
 
 ## Troubleshooting
 

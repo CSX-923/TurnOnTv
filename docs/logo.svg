@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>TurnOnTv</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#23262D"/><stop offset="1" stop-color="#121418"/></linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE6A8"/><stop offset="1" stop-color="#FFC85C"/></linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="46"/></filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="124" y="204" width="264" height="160" rx="40" fill="#FFC85C" opacity="0.67" filter="url(#glow)"/>
+  <g stroke="#fff" stroke-width="18" stroke-linecap="round">
+    <line x1="222" y1="178" x2="180" y2="112"/><line x1="290" y1="178" x2="332" y2="112"/>
+  </g>
+  <circle cx="180" cy="112" r="16" fill="#fff"/><circle cx="332" cy="112" r="16" fill="#fff"/>
+  <rect x="166" y="390" width="48" height="24" rx="12" fill="#fff"/><rect x="298" y="390" width="48" height="24" rx="12" fill="#fff"/>
+  <rect x="96" y="176" width="320" height="216" rx="58" fill="#fff"/>
+  <rect x="124" y="204" width="264" height="160" rx="34" fill="url(#screen)"/>
+  <path d="M134 204 h244 a34 34 0 0 1 24 24 v56 h-264 v-56 a34 34 0 0 1 24 -24 z" fill="#fff" opacity="0.18"/>
+  <g fill="none" stroke="#15181E" stroke-width="20" stroke-linecap="round">
+    <path d="M286.6 260.3 A40 40 0 1 1 225.4 260.3"/>
+    <line x1="256" y1="224" x2="256" y2="272"/>
+  </g>
+</svg>

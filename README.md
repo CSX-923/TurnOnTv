@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/banner.png" alt="TurnOnTv. Your PC turns on. Your TV follows. Wakes any Android or Google TV on your PC's HDMI input. Windows and Linux." width="800">
+</p>
+
 # TurnOnTv
 
 Turn on your Android TV / Google TV and switch it to your PC's HDMI input when the PC starts or wakes
@@ -146,4 +150,6 @@ id are written as `%2F`.
 
 ## Credits
 
-Built on [androidtvremote2](https://github.com/tronikos/androidtvremote2). MIT licensed.
+Built on [androidtvremote2](https://github.com/tronikos/androidtvremote2). The logo (`docs/logo.svg`,
+`docs/logo.png`) is a nod to [CleanYourTV](https://github.com/Gathin23/cleanyourtv)'s TV, and the banner is
+set in [Outfit](https://fonts.google.com/specimen/Outfit) (SIL Open Font License). MIT licensed.

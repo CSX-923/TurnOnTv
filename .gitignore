@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+# Pairing and settings live in %APPDATA%\TurnOnTv or ~/.config/turnontv, never in the repo; just in case:
+*.pem
+config.json
+*.log

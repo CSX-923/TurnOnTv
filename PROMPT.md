@@ -102,8 +102,8 @@ noise; ignore them.
     `winget install -e --id Python.Python.3.13 --scope user --accept-package-agreements --accept-source-agreements`.
     This accepts the Python license and winget's terms, so ask me first.
   - On Linux, install `python3` and `python3-venv` (Debian/Ubuntu) with the package manager.
-- **This repository on the target.** Use `git clone https://github.com/CarlosSV923/TurnOnTv`. Without git,
-  download https://github.com/CarlosSV923/TurnOnTv/archive/refs/heads/main.zip and extract it. A good place
+- **This repository on the target.** Use `git clone https://github.com/CSX-923/TurnOnTv`. Without git,
+  download https://github.com/CSX-923/TurnOnTv/archive/refs/heads/main.zip and extract it. A good place
   is the user's home folder (`~/TurnOnTv`, `C:\Users\<user>\TurnOnTv`).
 - **Find the TV.** Ask me for its IP address (*Settings → Network* on the TV), or scan the local network
   for TCP ports 6466 and 6467, which every Android TV / Google TV with Google's remote service opens. If

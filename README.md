@@ -29,8 +29,8 @@ it can set up a **different** computer than the one it runs on (for example a ga
 over SSH, and walk you through enabling SSH there.
 
 1. Install an AI coding agent on the computer you use, and open a terminal.
-2. Get this repository: `git clone https://github.com/CarlosSV923/TurnOnTv`, or download the
-   [ZIP](https://github.com/CarlosSV923/TurnOnTv/archive/refs/heads/main.zip) and extract it.
+2. Get this repository: `git clone https://github.com/CSX-923/TurnOnTv`, or download the
+   [ZIP](https://github.com/CSX-923/TurnOnTv/archive/refs/heads/main.zip) and extract it.
 3. Start the agent in that folder and paste the contents of [PROMPT.md](PROMPT.md), with your TV model and
    which PC is plugged into it.
 4. Answer its questions. When the TV shows a pairing code, or a password is needed, **you** type it into
@@ -65,7 +65,7 @@ pairing code that you type into the installer.
 ### Windows
 
 ```powershell
-git clone https://github.com/CarlosSV923/TurnOnTv
+git clone https://github.com/CSX-923/TurnOnTv
 cd TurnOnTv
 powershell -ExecutionPolicy Bypass -File windows\install.ps1 -TvHost 192.168.1.50 -TvInput HDMI_1
 ```
@@ -80,7 +80,7 @@ hibernation. Test it with `Start-ScheduledTask -TaskName TurnOnTv`. To remove it
 ### Linux (systemd)
 
 ```bash
-git clone https://github.com/CarlosSV923/TurnOnTv
+git clone https://github.com/CSX-923/TurnOnTv
 cd TurnOnTv
 linux/install.sh --host 192.168.1.50 --input HDMI_1
 ```
